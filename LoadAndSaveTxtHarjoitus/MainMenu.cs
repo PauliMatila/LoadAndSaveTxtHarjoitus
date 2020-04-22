@@ -31,7 +31,8 @@ namespace LoadAndSaveTxtHarjoitus
             Console.WriteLine("2. Show list of people");
             Console.WriteLine("3. Save people list");
             Console.WriteLine("4. Load people list");
-            Console.WriteLine("5. Exit");
+            Console.WriteLine("5. Show people from file");
+            Console.WriteLine("6. Exit");
             int selected = int.Parse(Console.ReadLine());
             Console.Clear();
             switch (selected)
@@ -46,9 +47,12 @@ namespace LoadAndSaveTxtHarjoitus
                     dataHandler.SaveList();
                     break;
                 case 4:
-                    dataHandler.LoadData(fh.filePath);
+                    dataHandler.LoadStringsFromFile(fh.GetCurrentFilePath());
                     break;
                 case 5:
+                    dataHandler.AddPersonDataToList();
+                    break;
+                case 6:
                     return false;
                 default:
                     Console.Clear();

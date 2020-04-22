@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace LoadAndSaveTxtHarjoitus
 {
     public class DataHandler
     {
         List<Person> people = new List<Person>();
+        
+        List<string> lines = new List<string>();
+        
         FileHandler fh = new FileHandler();
 
         public DataHandler(FileHandler fileHandler)
@@ -83,7 +87,7 @@ namespace LoadAndSaveTxtHarjoitus
 
         public void SavePeopleList(List<Person> people)
         {
-            List<string> lines = PersonListToString(people);
+            lines = PersonListToString(people);
             WriteLineToFile(lines);
         }
 
@@ -91,32 +95,49 @@ namespace LoadAndSaveTxtHarjoitus
         {
             SavePeopleList(people);
             Console.WriteLine("Peoples are saved!");
-            Console.WriteLine($"{fh.filePath}");
+            Console.WriteLine($"{fh.GetCurrentFilePath()}");
         }
 
         public List<string> LoadStringsFromFile(string filePath)
         {
             List<string> lines = fh.ReadFile(filePath);
-            
-            
-
-            
+            Console.Write($"Loading from file...");
+            Thread.Sleep(2000);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Done!");
+            Console.ResetColor();
+            Console.WriteLine();
             return lines;
         }
 
         public Person StringToPerson(string personInfo)
         {
-            foreach (var line in personInfo)
+            string[] entries = personInfo.Split(',');
+            Person newPerson = new Person();
+            
+            newPerson.name = entries[0];
+            newPerson.age = int.Parse(entries[1]);
+            newPerson.ageCheck = bool.Parse(entries[2]);
+
+            return newPerson;
+        }
+        
+        public List<Person> LoadPersonDataFromCurrentFile()
+        {           
+            lines = LoadStringsFromFile(fh.GetCurrentFilePath());
+            List<Person> newPeople = new List<Person>();
+            foreach (string line in lines)
             {
-                string[] entries = line.Split(',');
-
-                Person newPerson = new Person();
-                newPerson.name = entries[0];
-                newPerson.age = int.Parse(entries[1]);
-                newPerson.ageCheck = bool.Parse(entries[2]);
-
-                people.Add(newPerson);
+                newPeople.Add(StringToPerson(line));
             }
+            return newPeople;
+        }
+
+        public void AddPersonDataToList()
+        {
+            people.Clear();
+            people.AddRange(LoadPersonDataFromCurrentFile());
+            PrintPeopleList();
         }
     }
 }
