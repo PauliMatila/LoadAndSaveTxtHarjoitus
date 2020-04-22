@@ -94,27 +94,29 @@ namespace LoadAndSaveTxtHarjoitus
             Console.WriteLine($"{fh.filePath}");
         }
 
-        public List<string> LoadData(string filePath)
+        public List<string> LoadStringsFromFile(string filePath)
         {
             List<string> lines = fh.ReadFile(filePath);
             
-            //foreach (var line in lines)
-            //{
-            //    string[] entries = line.Split(',');
+            
 
-            //    Person newPerson = new Person();
-            //    newPerson.name = entries[0];
-            //    newPerson.age = int.Parse(entries[1]);
-            //    newPerson.ageCheck = bool.Parse(entries[2]);
-                
-            //    people.Add(newPerson);
-            //}
-
-            foreach (var person in people)
-            {
-                Console.WriteLine($"Name: {person.name} age: {person.age}\nAge check: {person.ageCheck}");
-            }
+            
             return lines;
+        }
+
+        public Person StringToPerson(string personInfo)
+        {
+            foreach (var line in personInfo)
+            {
+                string[] entries = line.Split(',');
+
+                Person newPerson = new Person();
+                newPerson.name = entries[0];
+                newPerson.age = int.Parse(entries[1]);
+                newPerson.ageCheck = bool.Parse(entries[2]);
+
+                people.Add(newPerson);
+            }
         }
     }
 }
