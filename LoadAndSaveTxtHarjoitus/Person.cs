@@ -6,7 +6,8 @@ namespace LoadAndSaveTxtHarjoitus
 {
     public class Person
     {
-        public string name { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
         public int age { get; set; }
         public bool ageCheck { get; set; }
 
@@ -15,9 +16,10 @@ namespace LoadAndSaveTxtHarjoitus
 
         }
 
-        public Person(string name, int age, bool ageCheck)
+        public Person(string firstName, string lastName, int age, bool ageCheck)
         {
-            this.name = name;
+            this.firstName = firstName;
+            this.lastName = lastName;
             this.age = age;
             this.ageCheck = ageCheck;
         }

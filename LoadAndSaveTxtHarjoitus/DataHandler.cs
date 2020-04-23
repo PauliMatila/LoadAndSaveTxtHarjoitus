@@ -10,6 +10,8 @@ namespace LoadAndSaveTxtHarjoitus
     public class DataHandler
     {
         List<Person> people = new List<Person>();
+
+        //List<Person> list = new List<Person>();
         
         List<string> lines = new List<string>();
         
@@ -22,12 +24,14 @@ namespace LoadAndSaveTxtHarjoitus
 
         public Person AddNewPerson()
         {
-            Console.WriteLine("Give person's name");
-            string name = Console.ReadLine();
+            Console.WriteLine("Give person's first name");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Give person's last name");
+            string lastName = Console.ReadLine();
             Console.WriteLine("Give person's age");
             int age = int.Parse(Console.ReadLine());
             bool ageCheck = false;
-            Person person = new Person(name, age, ageCheck);
+            Person person = new Person(firstName, lastName, age, ageCheck);
             if (person.age >= 18)
             {
                 person.ageCheck = true;
@@ -52,7 +56,7 @@ namespace LoadAndSaveTxtHarjoitus
             }
             for (int i = 0; i < people.Count; i++)
             {
-                Console.WriteLine($"{i + 1}: Name: {people[i].name} age: {people[i].age}");
+                Console.WriteLine($"{i + 1}: Name: {people[i].firstName} {people[i].lastName} age: {people[i].age}");
                 
                 if (people[i].ageCheck == true)
                 {
@@ -62,12 +66,21 @@ namespace LoadAndSaveTxtHarjoitus
                 {
                     Console.WriteLine("Person is minor");
                 }
+                Console.WriteLine();
             }            
         }
 
+        //public Person SelectList()
+        //{
+        //    PrintPeopleList();
+        //    Console.WriteLine("Input persons number:");
+        //    int selected = int.Parse(Console.ReadLine());
+        //    return list[selected - 1];
+        //}
+
         public string PersonToString(Person person)
         {
-            return $"{person.name},{person.age},{person.ageCheck}";
+            return $"{person.firstName},{person.lastName},{person.age},{person.ageCheck}";
         }
 
         public void WriteLineToFile(List<string> lines)
@@ -93,6 +106,7 @@ namespace LoadAndSaveTxtHarjoitus
 
         public void SaveList()
         {
+            Console.Clear();
             SavePeopleList(people);
             Console.WriteLine("Peoples are saved!");
             Console.WriteLine($"{fh.GetCurrentFilePath()}");
@@ -102,7 +116,7 @@ namespace LoadAndSaveTxtHarjoitus
         {
             List<string> lines = fh.ReadFile(filePath);
             Console.Write($"Loading from file...");
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Done!");
             Console.ResetColor();
@@ -114,10 +128,11 @@ namespace LoadAndSaveTxtHarjoitus
         {
             string[] entries = personInfo.Split(',');
             Person newPerson = new Person();
-            
-            newPerson.name = entries[0];
-            newPerson.age = int.Parse(entries[1]);
-            newPerson.ageCheck = bool.Parse(entries[2]);
+
+                newPerson.firstName = entries[0];
+                newPerson.lastName = entries[1];
+                newPerson.age = int.Parse(entries[2]);
+                newPerson.ageCheck = bool.Parse(entries[3]); 
 
             return newPerson;
         }
@@ -138,6 +153,16 @@ namespace LoadAndSaveTxtHarjoitus
             people.Clear();
             people.AddRange(LoadPersonDataFromCurrentFile());
             PrintPeopleList();
+        }
+
+        public List<Person> RemovePersonFromCurrentFile()
+        {
+            lines = LoadStringsFromFile(fh.GetCurrentFilePath());
+            List<Person> newPeople;
+            foreach (var item in lines)
+            {
+
+            }
         }
     }
 }

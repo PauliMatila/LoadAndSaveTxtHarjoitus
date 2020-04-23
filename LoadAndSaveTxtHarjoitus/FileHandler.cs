@@ -11,7 +11,7 @@ namespace LoadAndSaveTxtHarjoitus
     public class FileHandler
     {
         public string currentPath { get; set; } = @"D:\harjotus\";
-        public string currentFile { get; set; } = "currentFile.txt";
+        public string currentFile { get; set; } = "PersonData.txt";
 
         public FileHandler(string aCurrentPath, string aCurrentFile)
         {
@@ -31,13 +31,34 @@ namespace LoadAndSaveTxtHarjoitus
         }
 
         public void WriteFile(List<string> lines)
-        {            
-            File.WriteAllLines(GetCurrentFilePath(), lines);
+        {
+            Console.WriteLine("1. Select default file name.");
+            Console.WriteLine("2. Input new file name.");
+            int selected = int.Parse(Console.ReadLine());
+            switch (selected)
+            {
+                case 1:
+                    File.WriteAllLines(GetCurrentFilePath(), lines);
+                    break;
+                case 2:
+                    File.WriteAllLines(CreateFileName(), lines);
+                    break;
+                default:
+                    Console.WriteLine("Select 1. or 2.");
+                    break;
+            }
         }
 
         public string GetCurrentFilePath()
         {
             return currentPath + currentFile;
+        }
+
+        public string CreateFileName()
+        {
+            Console.WriteLine("Enter filename: ");
+            currentFile = Console.ReadLine();
+            return currentPath + currentFile + ".txt";
         }
     }
 }
