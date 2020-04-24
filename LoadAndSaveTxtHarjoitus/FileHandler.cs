@@ -22,12 +22,20 @@ namespace LoadAndSaveTxtHarjoitus
         public FileHandler()
         {
             
-        }                
-
-        public List<string> ReadFile(string filePath)
+        }
+        //var files = Directory.GetFiles(currentPath, "*.txt", SearchOption.TopDirectoryOnly);
+        public List<string> ReadFile(string currentPath)
         {
-            List<string> lines = File.ReadAllLines(filePath).ToList();
-            return lines;
+            if (File.Exists(currentPath))
+            {
+                List<string> lines = File.ReadAllLines(currentPath).ToList();
+                return lines;
+            }
+            else
+            {
+                Console.WriteLine("Folder is empty", currentPath);
+            }
+            return null;
         }
 
         public void WriteFile(List<string> lines)
@@ -57,8 +65,8 @@ namespace LoadAndSaveTxtHarjoitus
         public string CreateFileName()
         {
             Console.WriteLine("Enter filename: ");
-            currentFile = Console.ReadLine();
-            return currentPath + currentFile + ".txt";
+            currentFile = Console.ReadLine() + ".txt";
+            return currentPath + currentFile;
         }
     }
 }

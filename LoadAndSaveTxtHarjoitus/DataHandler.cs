@@ -22,6 +22,15 @@ namespace LoadAndSaveTxtHarjoitus
             fh = fileHandler;
         }
 
+        public string UppercaseFirst(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return string.Empty;
+            }
+            return char.ToUpper(value[0]) + value.Substring(1);
+        }
+
         public Person AddNewPerson()
         {
             Console.WriteLine("Give person's first name");
@@ -30,8 +39,12 @@ namespace LoadAndSaveTxtHarjoitus
             string lastName = Console.ReadLine();
             Console.WriteLine("Give person's age");
             int age = int.Parse(Console.ReadLine());
+            while (age = null)
+            {
+
+            }
             bool ageCheck = false;
-            Person person = new Person(firstName, lastName, age, ageCheck);
+            Person person = new Person(UppercaseFirst(firstName).Trim(), UppercaseFirst(lastName).Trim(), age, ageCheck);
             if (person.age >= 18)
             {
                 person.ageCheck = true;
@@ -56,7 +69,7 @@ namespace LoadAndSaveTxtHarjoitus
             }
             for (int i = 0; i < people.Count; i++)
             {
-                Console.WriteLine($"{i + 1}: Name: {people[i].firstName} {people[i].lastName} age: {people[i].age}");
+                Console.WriteLine($"{i + 1}: Name: {people[i].firstName} {people[i].lastName} \nAge: {people[i].age}");
                 
                 if (people[i].ageCheck == true)
                 {
@@ -109,18 +122,22 @@ namespace LoadAndSaveTxtHarjoitus
             Console.Clear();
             SavePeopleList(people);
             Console.WriteLine("Peoples are saved!");
-            Console.WriteLine($"{fh.GetCurrentFilePath()}");
+            Console.WriteLine(fh.GetCurrentFilePath());
         }
 
         public List<string> LoadStringsFromFile(string filePath)
         {
             List<string> lines = fh.ReadFile(filePath);
-            Console.Write($"Loading from file...");
-            Thread.Sleep(1000);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Done!");
-            Console.ResetColor();
-            Console.WriteLine();
+            if (lines != null)
+            {
+                Console.Write($"Loading from file...");
+                Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Done!");
+                Console.ResetColor();
+                Console.WriteLine();
+                return lines;
+            }
             return lines;
         }
 
@@ -140,28 +157,29 @@ namespace LoadAndSaveTxtHarjoitus
         public List<Person> LoadPersonDataFromCurrentFile()
         {           
             lines = LoadStringsFromFile(fh.GetCurrentFilePath());
-            List<Person> newPeople = new List<Person>();
-            foreach (string line in lines)
+            if (lines != null)
             {
-                newPeople.Add(StringToPerson(line));
+                List<Person> newPeople = new List<Person>();
+                foreach (string line in lines)
+                {
+                    newPeople.Add(StringToPerson(line));
+                }
+                return newPeople;
             }
-            return newPeople;
+            return null;
         }
 
-        public void AddPersonDataToList()
+        public void AddPersonDataToList(List<Person> oldPeople)
         {
-            people.Clear();
-            people.AddRange(LoadPersonDataFromCurrentFile());
-            PrintPeopleList();
-        }
-
-        public List<Person> RemovePersonFromCurrentFile()
-        {
-            lines = LoadStringsFromFile(fh.GetCurrentFilePath());
-            List<Person> newPeople;
-            foreach (var item in lines)
+            if (oldPeople != null)
             {
-
+                people.Clear();
+                people.AddRange(oldPeople);
+                PrintPeopleList();
+            }
+            else
+            {
+                Console.WriteLine("People list is empty");
             }
         }
     }

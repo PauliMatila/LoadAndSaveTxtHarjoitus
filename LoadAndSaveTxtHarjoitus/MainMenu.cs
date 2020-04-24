@@ -7,6 +7,7 @@ namespace LoadAndSaveTxtHarjoitus
     public class MainMenu
     {
         public DataHandler dataHandler;
+        public List<Person> peopleList;
 
         FileHandler fh = new FileHandler();
 
@@ -29,9 +30,9 @@ namespace LoadAndSaveTxtHarjoitus
             Console.Clear();
             Console.WriteLine("1. Input new person");
             Console.WriteLine("2. Show list of people");
-            Console.WriteLine("3. Save people list");
-            Console.WriteLine("4. Load people list");
-            Console.WriteLine("5. Show people from file");
+            Console.WriteLine("3. Save people list to file");
+            Console.WriteLine("4. Load people list from file");
+            Console.WriteLine("5. Show people list from file");
             Console.WriteLine("6. Exit");
             int selected = int.Parse(Console.ReadLine());
             Console.Clear();
@@ -47,10 +48,10 @@ namespace LoadAndSaveTxtHarjoitus
                     dataHandler.SaveList();
                     break;
                 case 4:
-                    dataHandler.LoadStringsFromFile(fh.GetCurrentFilePath());
+                    peopleList = dataHandler.LoadPersonDataFromCurrentFile();
                     break;
                 case 5:
-                    dataHandler.AddPersonDataToList();
+                    dataHandler.AddPersonDataToList(peopleList);
                     break;
                 case 6:
                     return false;
