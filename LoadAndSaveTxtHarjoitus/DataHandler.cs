@@ -11,7 +11,7 @@ namespace LoadAndSaveTxtHarjoitus
     {
         List<Person> people = new List<Person>();
 
-        //List<Person> list = new List<Person>();
+        List<Person> list = new List<Person>();
         
         List<string> lines = new List<string>();
         
@@ -33,15 +33,21 @@ namespace LoadAndSaveTxtHarjoitus
 
         public Person AddNewPerson()
         {
-            Console.WriteLine("Give person's first name");
+            Console.Write("Give person's first name: ");
             string firstName = Console.ReadLine();
-            Console.WriteLine("Give person's last name");
+            Console.Clear();
+            Console.Write("Give person's last name: ");
             string lastName = Console.ReadLine();
-            Console.WriteLine("Give person's age");
-            int age = int.Parse(Console.ReadLine());
-            while (age = null)
+            Console.Clear();
+            Console.Write("Give person's age: ");
+            var ageAsString = Console.ReadLine();
+            Console.Clear();
+            int age;           
+            while(!int.TryParse(ageAsString, out age))
             {
-
+                Console.WriteLine("Oops! You didn't input age!");
+                Console.Write("Give person's age: ");
+                ageAsString = Console.ReadLine();
             }
             bool ageCheck = false;
             Person person = new Person(UppercaseFirst(firstName).Trim(), UppercaseFirst(lastName).Trim(), age, ageCheck);
@@ -59,6 +65,14 @@ namespace LoadAndSaveTxtHarjoitus
             Console.WriteLine("Person added to list");
             return person;
         }
+
+        //public Person SelectList()
+        //{
+        //    PrintPeopleList();
+        //    Console.WriteLine("Input persons number:");
+        //    int selected = int.Parse(Console.ReadLine());
+        //    return list[selected - 1];
+        //}
 
         public void PrintPeopleList()
         {
@@ -83,13 +97,14 @@ namespace LoadAndSaveTxtHarjoitus
             }            
         }
 
-        //public Person SelectList()
-        //{
-        //    PrintPeopleList();
-        //    Console.WriteLine("Input persons number:");
-        //    int selected = int.Parse(Console.ReadLine());
-        //    return list[selected - 1];
-        //}
+        public List<Person> RemovePersonFromList()
+        {
+            PrintPeopleList();
+            Console.WriteLine("Select person to remove:");
+            int selected = int.Parse(Console.ReadLine());           
+            people.Remove(selected);
+            return people;
+        }
 
         public string PersonToString(Person person)
         {

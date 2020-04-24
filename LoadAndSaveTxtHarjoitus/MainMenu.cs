@@ -30,10 +30,11 @@ namespace LoadAndSaveTxtHarjoitus
             Console.Clear();
             Console.WriteLine("1. Input new person");
             Console.WriteLine("2. Show list of people");
-            Console.WriteLine("3. Save people list to file");
-            Console.WriteLine("4. Load people list from file");
-            Console.WriteLine("5. Show people list from file");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("3. Remove person from list");
+            Console.WriteLine("4. Save people list to file");
+            Console.WriteLine("5. Load people list from file");
+            Console.WriteLine("6. Show people list from file");
+            Console.WriteLine("7. Exit");
             int selected = int.Parse(Console.ReadLine());
             Console.Clear();
             switch (selected)
@@ -45,15 +46,18 @@ namespace LoadAndSaveTxtHarjoitus
                     dataHandler.PrintPeopleList();
                     break;
                 case 3:
-                    dataHandler.SaveList();
+                    dataHandler.RemovePersonFromList();
                     break;
                 case 4:
-                    peopleList = dataHandler.LoadPersonDataFromCurrentFile();
+                    dataHandler.SaveList();
                     break;
                 case 5:
-                    dataHandler.AddPersonDataToList(peopleList);
+                    peopleList = dataHandler.LoadPersonDataFromCurrentFile();
                     break;
                 case 6:
+                    dataHandler.AddPersonDataToList(peopleList);
+                    break;
+                case 7:
                     return false;
                 default:
                     Console.Clear();
